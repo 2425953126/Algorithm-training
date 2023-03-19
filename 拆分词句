@@ -1,0 +1,33 @@
+class Solution {
+public:
+    bool wordBreak(string s, unordered_set<string> &dict) 
+    {   
+        if(s.empty())
+            return false;
+        if(dict.empty())
+            return false;
+        vector<bool> f(s.size()+1,false);
+        f[0]=true;//重要,判断整个字符序列是否属于dict
+        for(int j=1;j<=s.size();j++)
+        {
+            for(int i=0;i<j;i++)
+            {
+                if(f[i]&&dict.find(s.substr(i,j-i))!=dict.end())
+                {
+                    f[j]=true;//重要!!!是jjjjj!!!!!
+                    break;
+                }
+            }
+        }
+        return f.back();
+    }
+};
+ /*static int count=1;
+        cout<<count++<<":"<<s<<endl;
+        cout<<'[';
+        for(auto&x:dict)
+        {
+            cout<<x<<',';
+        }
+        cout<<']'<<endl;*/
+        //动态规划,从1个字符构成到字符序列开始判断,这个字符序列是否可以分割成dict中的单词,然后是2个字符构成的......N个字符构成的,即为答案,目的为找出每个符合要求的子字符序列,在求最终解的过程中,就是用前合规字符序列+/之后的所有字符视为一个序列进行比较,如后者不属于dict,前者就到更后一个字符序列,本质上是将前面的字符序列视为一个单词,之后的所有字符也视为一个单词进行检测.
